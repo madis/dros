@@ -81,5 +81,5 @@ test:
 production:
   <<: *default
   database: dros_production
-  username: dros
+  username: deployer
   password: <%= ENV['DROS_DATABASE_PASSWORD'] %>
