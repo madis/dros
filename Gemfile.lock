@@ -216,6 +216,8 @@ GEM
       json (>= 1.8, < 3)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
+    slackistrano (3.1.0)
+      capistrano (>= 3.5.0)
     slop (3.6.0)
     spring (2.0.0)
       activesupport (>= 4.2)
@@ -286,6 +288,7 @@ DEPENDENCIES
   rubocop
   sass-rails (~> 5.0)
   shoulda-matchers
+  slackistrano
   spring
   spring-commands-rspec
   spring-watcher-listen (~> 2.0.0)

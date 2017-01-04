@@ -7,6 +7,8 @@ require 'capistrano/bundler'
 require 'capistrano/rvm'
 require 'capistrano/puma'
 
+require 'slackistrano/capistrano'
+
 # Load the SCM plugin appropriate to your project:
 #
 # require "capistrano/scm/hg"

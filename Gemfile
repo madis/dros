@@ -63,5 +63,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rubocop'
   gem 'shoulda-matchers', require: false
+  gem 'slackistrano'
   gem 'spring-commands-rspec'
 end
