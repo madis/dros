@@ -1,0 +1,17 @@
+<h1>Projects</h1>
+<table class="table table-striped projects">
+  <thead>
+    <tr>
+      <th>Project</th>
+      <th>Health</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @projects.each do |p| %>
+      <tr>
+        <td><%= p.slug %></td>
+        <td><%= p.health %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
