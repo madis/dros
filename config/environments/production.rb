@@ -1,3 +1,11 @@
+require 'dotenv'
+Dotenv.load('.ruby-env')
+
+Raven.configure do |config|
+  config.dsn = ENV['RAVEN_DSN']
+  config.environments = %w(staging production)
+end
+
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
 

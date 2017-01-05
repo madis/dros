@@ -91,6 +91,7 @@ GEM
     debug_inspector (0.0.2)
     diff-lcs (1.2.5)
     docile (1.1.5)
+    dotenv (2.1.1)
     erubis (2.7.0)
     execjs (2.7.0)
     factory_girl (4.8.0)
@@ -209,6 +210,8 @@ GEM
     sawyer (0.8.1)
       addressable (>= 2.3.5, < 2.6)
       faraday (~> 0.8, < 1.0)
+    sentry-raven (2.3.0)
+      faraday (>= 0.7.6, < 1.0)
     shoulda-matchers (3.1.1)
       activesupport (>= 4.0.0)
     simplecov (0.12.0)
@@ -275,6 +278,7 @@ DEPENDENCIES
   capybara
   codeclimate-test-reporter (~> 1.0.0)
   coffee-rails (~> 4.2)
+  dotenv
   factory_girl
   jbuilder (~> 2.5)
   jquery-rails
@@ -287,6 +291,7 @@ DEPENDENCIES
   rspec-rails
   rubocop
   sass-rails (~> 5.0)
+  sentry-raven
   shoulda-matchers
   slackistrano
   spring
