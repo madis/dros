@@ -78,7 +78,17 @@ namespace :deploy do
     end
   end
 
+  desc 'Copy environment variables file to current'
+  task :set_up_environment_variables do
+    on roles(:all) do |_|
+      env_vars_for_stage = "#{ENV['PROJECT_REMOTE_CONFIGS']}/#{fetch(:stage)}/ruby-env"
+      ruby_env_in_current = "#{fetch(:release_path)}/.ruby-env"
+      upload! env_vars_for_stage, ruby_env_in_current
+    end
+  end
+
   before :starting,     :check_revision
+  after  :updated,      :set_up_environment_variables
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
