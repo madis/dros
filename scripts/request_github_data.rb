@@ -5,8 +5,12 @@ Bundler.setup
 
 require 'octokit'
 
-stats = Octokit.contributors_stats 'vuejs/vue'
-output_filename = 'repo_stats_vuejs_vue.json'
+owner = 'rails'
+repo = 'rails'
+stats = Octokit.contributors_stats "#{owner}/#{repo}"
+output_filename = "repo_stats_#{owner}_#{repo}.json"
+
+sleep 3
 
 File.open(output_filename, 'w') do |f|
   f.write JSON.pretty_generate(stats.map(&:to_h))

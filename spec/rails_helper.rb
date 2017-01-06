@@ -19,6 +19,7 @@ RSpec.configure do |config|
   config.infer_spec_type_from_file_location!
   config.filter_rails_from_backtrace!
   config.include Requests::JsonHelpers, type: :request
+  config.include FixtureHelpers
   config.expose_dsl_globally = true
   config.expect_with :rspec do |c|
     c.syntax = :expect

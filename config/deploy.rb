@@ -88,7 +88,7 @@ namespace :deploy do
   end
 
   before :starting,     :check_revision
-  after  :updated,      :set_up_environment_variables
+  before :updated,      :set_up_environment_variables
   after  :finishing,    :compile_assets
   after  :finishing,    :cleanup
   after  :finishing,    :restart
