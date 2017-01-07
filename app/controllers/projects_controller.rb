@@ -1,10 +1,10 @@
 class ProjectsController < ApplicationController
   def index
-    @projects = Project.all
+    @projects = Project.all.map { |p| ProjectPresenter.new(p) }
   end
 
   def slug
-    @project = ProjectStore.get "#{params[:owner]}/#{params[:repo]}"
+    @project = ProjectPresenter.new ProjectStore.get("#{params[:owner]}/#{params[:repo]}")
     render :show
   end
 end

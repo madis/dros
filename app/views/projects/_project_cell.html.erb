@@ -1,0 +1,17 @@
+<div class="project-cell col-md-4">
+  <div class="card card-stats">
+    <div class="card-header" data-background-color="<%= project.icon_color %>">
+      <i class="material-icons"><%= project.icon_text %></i>
+    </div>
+    <div class="card-content">
+      <h3 class="repo-title"><%= project.slug %></h3>
+      <p class="category"><%= project.description %></p>
+    </div>
+    <div class="card-footer">
+      <div class="stats">
+        <i class="material-icons text-info">info</i>
+        <a href="<%= project.url %>" target="_blank"><%= project.url %> </a>
+      </div>
+    </div>
+  </div>
+</div>

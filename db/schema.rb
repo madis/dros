@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170106093859) do
+ActiveRecord::Schema.define(version: 20170107090733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,11 +28,11 @@ ActiveRecord::Schema.define(version: 20170106093859) do
   end
 
   create_table "projects", force: :cascade do |t|
-    t.string   "owner",                          null: false
-    t.string   "repo",                           null: false
-    t.string   "health",     default: "unknown", null: false
-    t.datetime "created_at",                     null: false
-    t.datetime "updated_at",                     null: false
+    t.string   "owner",                  null: false
+    t.string   "repo",                   null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.integer  "health",     default: 0, null: false
   end
 
   add_foreign_key "contributions", "projects"

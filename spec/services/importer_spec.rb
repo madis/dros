@@ -9,7 +9,8 @@ RSpec.describe Importer do
   end
 
   it 'updates project status' do
-    expect { subject }.to change { project.health }.from('unknown').to('excellent')
+    subject
+    expect(project.health).to be > 50
   end
 
   it 'updates contributions' do

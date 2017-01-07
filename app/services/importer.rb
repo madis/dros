@@ -23,10 +23,11 @@ class Importer
 
   def update_contributions(stats)
     data_columns = [:a, :d, :c]
+
     Contribution.bulk_insert(*CONTRIBUTION_COLUMNS) do |worker|
       stats.each do |stat_row|
         stat_row[:weeks].each do |week|
-          data_values = week.values_at(*data_columns)
+          data_values = week.to_h.values_at(*data_columns)
           next if data_values.all?(&:zero?)
           worker.add [project.id, stat_row[:author][:login], week[:w], *data_values]
         end
@@ -40,10 +41,10 @@ class Importer
   end
 
   def health_based_on_contribution_activity
-    contributions_last_week = project.contributions(week: 1.week.ago..Time.now)
+    contributions_last_week = Contribution.where(week: 1.week.ago..Time.now, project: project)
     case contributions_last_week
-    when 0..1 then 'inactive'
-    else 'excellent'
+    when 0..1 then 45
+    else 75
     end
   end
 end

@@ -5,8 +5,4 @@ class Project < ApplicationRecord
   def slug
     "#{owner}/#{repo}"
   end
-
-  def url
-    "https://github.com/#{slug}"
-  end
 end

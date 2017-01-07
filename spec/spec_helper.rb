@@ -1,6 +1,9 @@
 require 'simplecov'
 SimpleCov.start
 
+$LOAD_PATH << File.expand_path('../app', File.dirname(__FILE__))
+require 'pry'
+
 RSpec.configure do |config|
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true

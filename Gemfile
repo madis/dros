@@ -34,7 +34,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'bulk_insert'
 gem 'dotenv'
 gem 'octokit'
-gem 'sentry-raven'
+gem 'sentry-raven', group: :production
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
