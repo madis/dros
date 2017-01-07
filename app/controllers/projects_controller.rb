@@ -4,7 +4,7 @@ class ProjectsController < ApplicationController
   end
 
   def slug
-    @project = ProjectPresenter.new ProjectStore.get("#{params[:owner]}/#{params[:repo]}")
+    @project = ProjectDetailsPresenter.new ProjectStore.get("#{params[:owner]}/#{params[:repo]}")
     render :show
   end
 end

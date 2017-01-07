@@ -24,16 +24,14 @@ class ProjectPresenter
 
   attr_reader :project
 
+  delegate :owner, :repo, :slug, to: :@project
+
   def initialize(project)
     @project = project
   end
 
   def url
     "https://github.com/#{slug}"
-  end
-
-  def slug
-    project.slug
   end
 
   def description

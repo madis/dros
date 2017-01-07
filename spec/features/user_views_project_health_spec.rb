@@ -13,6 +13,6 @@ feature 'User views project health' do
     visit 'vuejs/vue'
 
     expect(page).to have_link 'vuejs/vue', href: 'https://github.com/vuejs/vue'
-    expect(page).to have_css '.project-health', text: 'great'
+    expect(page).to have_css '.material-icons', text: 'sentiment_satisfied'
   end
 end

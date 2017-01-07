@@ -4,7 +4,9 @@
       <i class="material-icons"><%= project.icon_text %></i>
     </div>
     <div class="card-content">
+      <a href="<%= article_slug_path(owner: project.owner, repo: project.repo) %>">
       <h3 class="repo-title"><%= project.slug %></h3>
+      </a>
       <p class="category"><%= project.description %></p>
     </div>
     <div class="card-footer">
