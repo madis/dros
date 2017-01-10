@@ -2,6 +2,7 @@
 class Project < ApplicationRecord
   has_many :contributions
   has_many :repo_infos
+  has_one :stats
 
   def self.from_slug(slug)
     slug_components = slug.split('/')

@@ -8,6 +8,25 @@ class HealthDiagnosis
   end
 
   def health
-    100
+    percent = (p.weekly_commits_per_contributor_med.to_f / g.weekly_commits_per_contributor_med) * 100
+    within_bounds(percent)
+  end
+
+  private
+
+  def within_bounds(percent)
+    if percent > 100
+      100
+    else
+      percent
+    end
+  end
+
+  def g
+    @global_stats
+  end
+
+  def p
+    @project_stats
   end
 end

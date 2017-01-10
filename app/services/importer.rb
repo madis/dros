@@ -11,6 +11,7 @@ class Importer
   def import
     project = find_or_create_project
     import_data(project)
+    update_stats(project)
     update_health(project)
   rescue GithubApi::NotFound
     data_request.failed!
@@ -35,8 +36,14 @@ class Importer
     RepoInfoImporter.import GithubApi.repo(slug), project.id
   end
 
+  def update_stats(project)
+    StatsUpdater.update(project)
+  end
+
   def update_health(project)
-    project.update_attributes health: HealthDiagnosis.new(ProjectStats.find(project), ProjectStats.global).health
+    project.update_attributes(
+      health: HealthDiagnosis.new(ProjectStats.find_by(project: project), ProjectStats.global).health
+    )
   end
 
   def slug

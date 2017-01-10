@@ -1,20 +1,46 @@
 class BasicStats
-  attr_reader :min, :max, :avg, :med
+  class NoValues < StandardError; end
 
   def initialize(values = [])
     @values = values
-    recalculate
+    @caluclated = false
   end
 
   def <<(value)
     @values << value
-    recalculate
+    @calculated = false
     self
+  end
+
+  def min
+    calculate_if_needed
+    @min
+  end
+
+  def max
+    calculate_if_needed
+    @max
+  end
+
+  def avg
+    calculate_if_needed
+    @avg
+  end
+
+  def med
+    calculate_if_needed
+    @med
   end
 
   private
 
+  def calculate_if_needed
+    recalculate unless @calculated
+    @calculated = true
+  end
+
   def recalculate
+    raise NoValues, 'Can not calculate because no values' if @values.empty?
     calculate_min
     calculate_max
     calculate_avg
@@ -30,7 +56,7 @@ class BasicStats
   end
 
   def calculate_avg
-    @avg = (@min + @max).to_f / 2
+    @avg = @values.reduce(&:+).to_f / @values.count
   end
 
   def calculate_med

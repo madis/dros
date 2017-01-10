@@ -9,6 +9,11 @@ FactoryGirl.define do
   end
 
   factory :contribution do
+    sequence(:author) { |n| "john-doe-#{n}" }
+    sequence(:week) { |n| 1.year.ago.beginning_of_week + n * 1.week }
+    additions 0
+    deletions 0
+    commits 0
   end
 
   factory :data_request do

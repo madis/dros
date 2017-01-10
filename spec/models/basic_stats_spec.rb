@@ -4,6 +4,14 @@ require 'models/basic_stats'
 describe BasicStats do
   subject { described_class.new }
 
+  it 'can be instantiated without arguments' do
+    expect { described_class.new }.not_to raise_error
+  end
+
+  it 'can be instantiated without arguments' do
+    expect { described_class.new.min }.to raise_error(described_class::NoValues)
+  end
+
   it 'takes values through initializer' do
     stats = described_class.new [1, 2, 3]
     expect(stats.max).to eq 3
@@ -35,8 +43,8 @@ describe BasicStats do
 
   describe '#avg' do
     it 'average of values' do
-      stats = described_class.new [1, 2]
-      expect(stats.avg).to be_within(0.001).of(1.5)
+      stats = described_class.new [1, 2, 6]
+      expect(stats.avg).to be_within(0.001).of(3)
     end
   end
 

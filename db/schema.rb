@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170110095205) do
+ActiveRecord::Schema.define(version: 20170110140217) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,17 @@ ActiveRecord::Schema.define(version: 20170110095205) do
     t.datetime "updated_at",                     null: false
   end
 
+  create_table "project_stats", force: :cascade do |t|
+    t.float    "weekly_commits_per_contributor_min", default: 0.0, null: false
+    t.float    "weekly_commits_per_contributor_max", default: 0.0, null: false
+    t.float    "weekly_commits_per_contributor_avg", default: 0.0, null: false
+    t.float    "weekly_commits_per_contributor_med", default: 0.0, null: false
+    t.integer  "project_id",                                       null: false
+    t.datetime "created_at",                                       null: false
+    t.datetime "updated_at",                                       null: false
+    t.index ["project_id"], name: "index_project_stats_on_project_id", using: :btree
+  end
+
   create_table "projects", force: :cascade do |t|
     t.string   "owner",                  null: false
     t.string   "repo",                   null: false
@@ -44,17 +55,18 @@ ActiveRecord::Schema.define(version: 20170110095205) do
 
   create_table "repo_infos", force: :cascade do |t|
     t.string   "description"
-    t.integer  "size",        default: 0, null: false
-    t.integer  "watchers",    default: 0, null: false
-    t.integer  "stars",       default: 0, null: false
-    t.integer  "forks",       default: 0, null: false
+    t.integer  "size"
+    t.integer  "watchers"
+    t.integer  "stars"
+    t.integer  "forks"
     t.string   "language"
-    t.integer  "project_id",              null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "project_id",  null: false
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
     t.index ["project_id"], name: "index_repo_infos_on_project_id", using: :btree
   end
 
   add_foreign_key "contributions", "projects"
+  add_foreign_key "project_stats", "projects"
   add_foreign_key "repo_infos", "projects"
 end
