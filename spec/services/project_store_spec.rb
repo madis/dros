@@ -6,7 +6,7 @@ RSpec.describe ProjectStore do
 
   context 'up to date data present in database' do
     it 'returns data' do
-      project = create(:project, owner: 'rails', repo: 'rails')
+      project = create(:project, :up_to_date, owner: 'rails', repo: 'rails')
       expect(subject).to eq project
     end
   end
@@ -14,8 +14,8 @@ RSpec.describe ProjectStore do
   context 'no data' do
     it 'initiates import' do
       allow(importer).to receive(:import)
-      expect(subject).to eq Project.first
-      expect(importer).to have_received(:import).with(Project.first)
+      expect(subject).to eq nil
+      expect(importer).to have_received(:import).with(DataRequest.first)
     end
   end
 
@@ -24,7 +24,7 @@ RSpec.describe ProjectStore do
       allow(Importer).to receive(:import)
       project = create(:project, owner: 'sala', repo: 'kala', updated_at: 1.year.ago)
       expect(described_class.get('sala/kala')).to eq project
-      expect(Importer).to have_received(:import).with(project)
+      expect(Importer).to have_received(:import).with(DataRequest.first)
     end
   end
 end

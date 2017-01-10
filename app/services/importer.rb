@@ -1,50 +1,45 @@
-# Takes care of importing project data from external sources and updating
-# necessary models in database
+# Updates project data from external sources, based on DataRequests
 class Importer
-  def self.import(project)
-    new(project).import
+  def self.import(data_request)
+    new(data_request).import
   end
 
-  def initialize(project)
-    @project = project
+  def initialize(data_request)
+    @data_request = data_request
   end
 
   def import
-    stats = GithubApi.contributors_stats @project.slug
-    update_contributions(stats)
-    update_health
+    project = find_or_create_project
+    import_data(project)
+    update_health(project)
+  rescue GithubApi::NotFound
+    data_request.failed!
   end
 
   private
 
-  CONTRIBUTION_COLUMNS = %i(project_id author week additions deletions commits created_at updated_at).freeze
+  attr_reader :data_request
 
-  attr_reader :project
-
-  def update_contributions(stats)
-    data_columns = [:a, :d, :c]
-
-    Contribution.bulk_insert(*CONTRIBUTION_COLUMNS) do |worker|
-      stats.each do |stat_row|
-        stat_row[:weeks].each do |week|
-          data_values = week.to_h.values_at(*data_columns)
-          next if data_values.all?(&:zero?)
-          worker.add [project.id, stat_row[:author][:login], week[:w], *data_values]
-        end
-      end
-    end
+  def find_or_create_project
+    project = Project.by_slug(slug)
+    return project if project.present?
+    Project.from_slug slug
   end
 
-  def update_health
-    project.health = health_based_on_contribution_activity
-    project.save
+  def project_info
+    params.merge(owner_avatar_url: repo.dig(:owner, :avatar_url))
   end
 
-  def health_based_on_contribution_activity
-    contributions_last_week = Contribution.where(week: 1.week.ago..Time.now, project: project)
-    case contributions_last_week
-    when 0..1 then 45
-    else 75
-    end
+  def import_data(project)
+    ContributionsImporter.import GithubApi.contributors_stats(slug), project.id
+    RepoInfoImporter.import GithubApi.repo(slug), project.id
+  end
+
+  def update_health(project)
+    project.update_attributes health: HealthDiagnosis.new(ProjectStats.find(project), ProjectStats.global).health
+  end
+
+  def slug
+    @data_request.slug
   end
 end

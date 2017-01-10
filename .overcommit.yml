@@ -6,5 +6,6 @@ PreCommit:
   TrailingWhitespace:
     enabled: true
     exclude:
+      - 'spec/fixtures/*.html'
       - '**/db/structure.sql' # Ignore trailing whitespace in generated files
       - 'vendor/assets/**/*'

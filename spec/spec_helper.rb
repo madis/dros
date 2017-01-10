@@ -3,8 +3,11 @@ SimpleCov.start
 
 $LOAD_PATH << File.expand_path('../app', File.dirname(__FILE__))
 require 'pry'
+require 'webmock/rspec'
+require_relative 'support/fixture_helpers'
 
 RSpec.configure do |config|
+  config.include FixtureHelpers
   config.expect_with :rspec do |expectations|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
@@ -17,7 +20,6 @@ RSpec.configure do |config|
   config.filter_run_when_matching :focus
 
   config.example_status_persistence_file_path = 'spec/examples.txt'
-  config.disable_monkey_patching!
   config.expect_with :rspec do |c|
     c.syntax = :expect
   end

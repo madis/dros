@@ -6,10 +6,12 @@ RSpec.describe Importer do
 
   before do
     allow(GithubApi).to receive(:contributors_stats).and_return(json_fixture('repo_stats_vuejs_vue.json'))
+    allow(GithubApi).to receive(:repo).and_return(json_fixture('repo_info_vuejs_vue.json'))
   end
 
   it 'updates project status' do
     subject
+    project.reload
     expect(project.health).to be > 50
   end
 
@@ -20,5 +22,15 @@ RSpec.describe Importer do
   it 'does not add empty contributions' do
     subject
     expect(Contribution.where(commits: 0, additions: 0, deletions: 0).count).to eq 0
+  end
+
+  it 'adds project info' do
+    subject
+    expect(project.last_repo_info).to have_attributes(
+      description: 'A progressive, incrementally-adoptable JavaScript framework for building UI on the web.',
+      size: 16_230,
+      watchers: 39_124,
+      language: 'JavaScript'
+    )
   end
 end
