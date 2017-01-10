@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Importer do
-  let(:project) { Project.create(owner: 'vuejs', repo: 'vue') }
-  subject { described_class.import(project) }
+  let(:data_request) { create(:data_request, slug: 'vuejs/vue') }
+  subject { described_class.import(data_request) }
 
   before do
     allow(GithubApi).to receive(:contributors_stats).and_return(json_fixture('repo_stats_vuejs_vue.json'))
@@ -11,12 +11,14 @@ RSpec.describe Importer do
 
   it 'updates project status' do
     subject
-    project.reload
+    project = Project.by_slug(data_request.slug)
     expect(project.health).to be > 50
   end
 
   it 'updates contributions' do
-    expect { subject }.to change { project.contributions.count }.by 39
+    subject
+    project = Project.by_slug(data_request.slug)
+    expect(project.contributions.count).to eq 39
   end
 
   it 'does not add empty contributions' do
@@ -26,11 +28,18 @@ RSpec.describe Importer do
 
   it 'adds project info' do
     subject
+    project = Project.by_slug(data_request.slug)
     expect(project.last_repo_info).to have_attributes(
       description: 'A progressive, incrementally-adoptable JavaScript framework for building UI on the web.',
       size: 16_230,
       watchers: 39_124,
       language: 'JavaScript'
     )
+  end
+
+  it 'completes data request' do
+    subject
+    data_request.reload
+    expect(data_request).to be_completed
   end
 end

@@ -13,6 +13,7 @@ class Importer
     import_data(project)
     update_stats(project)
     update_health(project)
+    data_request.completed!
   rescue GithubApi::NotFound
     data_request.failed!
   end
