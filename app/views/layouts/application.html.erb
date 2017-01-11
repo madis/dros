@@ -13,10 +13,12 @@
     <%= render 'google_analytics' %>
   </head>
   <body>
+    <%= render 'top_navigation' %>
     <div class="content">
       <div class="container-fluid">
         <%= yield %>
       </div>
     </div>
+    <%= render 'bottom_navigation' %>
   </body>
 </html>
