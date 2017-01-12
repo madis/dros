@@ -1,6 +1,7 @@
 # Updates project data from external sources, based on DataRequests
 class Importer
-  def self.import(data_request)
+  def self.import(slug)
+    data_request = DataRequest.create slug: slug
     new(data_request).import
   end
 

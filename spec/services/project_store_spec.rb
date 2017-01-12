@@ -15,7 +15,7 @@ RSpec.describe ProjectStore do
     it 'initiates import' do
       allow(importer).to receive(:import)
       expect(subject).to eq nil
-      expect(importer).to have_received(:import).with(DataRequest.first)
+      expect(importer).to have_received(:import).with('rails/rails')
     end
   end
 
@@ -24,7 +24,7 @@ RSpec.describe ProjectStore do
       allow(Importer).to receive(:import)
       project = create(:project, owner: 'sala', repo: 'kala', updated_at: 1.year.ago)
       expect(described_class.get('sala/kala')).to eq project
-      expect(Importer).to have_received(:import).with(DataRequest.first)
+      expect(Importer).to have_received(:import).with('sala/kala')
     end
   end
 end

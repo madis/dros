@@ -29,8 +29,7 @@ class ProjectStore
   end
 
   def trigger_import(slug)
-    data_request = DataRequest.create slug: slug
-    @importer.import(data_request)
+    @importer.import(slug)
   end
 
   def update_when_out_of_date(project)

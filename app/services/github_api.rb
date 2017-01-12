@@ -17,7 +17,7 @@ class GithubApi
   end
 
   def self.contributors_stats(slug)
-    octokit.contributors_stats slug, retry_wait: 3, retry_timeout: 10
+    octokit.contributors_stats slug, retry_wait: 3, retry_timeout: 20
   end
 
   def self.repo(slug)
