@@ -8,7 +8,9 @@ describe RepoInfoImporter do
       description: 'A progressive, incrementally-adoptable JavaScript framework for building UI on the web.',
       size: 16_230,
       watchers: 39_124,
-      language: 'JavaScript'
+      language: 'JavaScript',
+      forks: 4797,
+      stars: 39_124
     )
   end
 end

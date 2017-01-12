@@ -6,6 +6,8 @@ class RepoInfoImporter
       size: params.fetch(:size),
       watchers: params.fetch(:watchers),
       language: params.fetch(:language),
+      forks: params.fetch(:forks_count),
+      stars: params.fetch(:stargazers_count),
       project_id: project_id
     }
     RepoInfo.create(repo_info_params)
