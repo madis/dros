@@ -9,23 +9,20 @@ base_path = "tmp/imports/#{timestamp}"
 puts "Will be storing imports under #{base_path}"
 FileUtils.mkdir_p base_path
 
-raw_trending = [
-  GithubTrending.today,
-  GithubTrending.weekly,
-  GithubTrending.monthly,
-  GithubTrending.today(language: 'ruby'),
-  GithubTrending.weekly(language: 'ruby'),
-  GithubTrending.monthly(language: 'ruby'),
-  GithubTrending.today(language: 'javascript'),
-  GithubTrending.weekly(language: 'javascript'),
-  GithubTrending.monthly(language: 'javascript')
-].flatten
+puts "Requesting & parsing data from github trending page"
+
+trending_pages = %i(today weekly monthly).product(['', 'ruby', 'javascript'])
+raw_trending = trending_pages.map do |period, lang|
+  puts "Requesting trending language '#{lang}' for #{period}"
+  GithubTrending.public_send(period, language: lang)
+end.flatten.compact
+
 puts "Received #{raw_trending.count} trending repos"
 puts 'Removing duplicates'
 
 unique_trending = raw_trending.uniq { |r| r[:slug] }
 
-puts "Importing data for #{unique_trending.count} repos", unique_trending
+puts "Importing data for #{unique_trending.count} repos"
 
 def retryable(tries:)
   retry_count = 0
@@ -42,6 +39,10 @@ def retryable(tries:)
     end
   end
 end
+
+files_list_path = "#{base_path}/unique_trending.json"
+puts "Writing files list (#{unique_trending.count} repos) to #{files_list_path}"
+File.open(files_list_path, 'w') { |f| f.write JSON.pretty_generate(unique_trending) }
 
 unique_trending.each.with_index do |repo, index|
   puts "#{index} Requesting contributors_stats for #{repo}"
