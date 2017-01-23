@@ -1,0 +1,9 @@
+<% flash.each do |level, message| %>
+  <div class="col-md-6 col-md-offset-3">
+    <div class="<%= flash_class(level) %>">
+      <i class="material-icons" data-notify="icon" >info_outline</i>
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
+      <span data-notify="message"><%= message %></span>
+    </div>
+  </div>
+<% end %>

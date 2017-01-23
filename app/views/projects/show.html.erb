@@ -1,46 +1,7 @@
-<%= %>
-
 <div class="row">
   <div class="col-md-offset-3 col-md-6">
-    <div class="card">
-      <div class="card-header card-header-icon" data-background-color="<%= @project.icon_color %>">
-        <i class="material-icons"><%= @project.icon_text %></i>
-      </div>
-      <div class="card-content">
-        <div class="card-title">
-          <a href="<%= @project.url %>">
-            <h2><%= @project.slug %></h2>
-          </a>
-        </div>
-        <div id="project-chart-container" data-background-color="blue">
-            <%= content_tag :div, '', class: 'project-health-chart ct-chart', data: { values: @project.health_assessments } %>
-        </div>
-        <div class="table-responsive">
-          <table class="table">
-            <thead class="text-primary">
-              <tr><th>Metric</th>
-                <th>Project average</th>
-                <th>Global average</th>
-                <th>Comparison</th>
-              </tr></thead>
-              <tbody>
-                <% @project.metrics.each do |metric| %>
-                  <tr>
-                    <td><%= metric %></td>
-                    <td><%= @project.random_value %></td>
-                    <td><%= @project.random_value %></td>
-                    <td><%= @project.random_value %></td>
-                  </tr>
-                <% end %>
-              </tbody>
-          </table>
-        </div>
-      </div>
-      <div class="card-footer">
-        <div class="stats">
-          <i class="material-icons">access_time</i> updated <%= time_ago_in_words(@project.last_updated) %> ago
-        </div>
-      </div>
-    </div>
+    <% if @project.present? %>
+      <%= render 'project_card' %>
+    <% end %>
   </div>
 </div>

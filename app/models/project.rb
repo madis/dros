@@ -22,8 +22,12 @@ class Project < ApplicationRecord
     "#{owner}/#{repo}"
   end
 
+  def last_data_request
+    DataRequest.where(slug: slug, status: :completed).order(:updated_at).last
+  end
+
   def last_updated
-    DataRequest.where(slug: slug, status: :completed).order(:updated_at).last.try(:updated_at)
+    last_data_request.try(:updated_at)
   end
 
   def last_repo_info

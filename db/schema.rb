@@ -55,14 +55,14 @@ ActiveRecord::Schema.define(version: 20170110194946) do
 
   create_table "repo_infos", force: :cascade do |t|
     t.string   "description"
-    t.integer  "size"
-    t.integer  "watchers"
-    t.integer  "stars"
-    t.integer  "forks"
+    t.integer  "size",        default: 0, null: false
+    t.integer  "watchers",    default: 0, null: false
+    t.integer  "stars",       default: 0, null: false
+    t.integer  "forks",       default: 0, null: false
     t.string   "language"
-    t.integer  "project_id",  null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.integer  "project_id",              null: false
+    t.datetime "created_at",              null: false
+    t.datetime "updated_at",              null: false
     t.index ["project_id"], name: "index_repo_infos_on_project_id", using: :btree
   end
 

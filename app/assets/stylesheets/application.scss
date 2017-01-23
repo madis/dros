@@ -16,6 +16,16 @@ img.navbar-logo {
   border-radius: $border-radius-base;
 }
 
+.alert {
+  margin-bottom: 10px;
+
+}
+
+.alert.alert-with-icon {
+  margin-top: 30px;
+}
+
+// Figure out what to do with the logo background color, then add color
 // nav.navbar {
 //   background: linear-gradient(60deg, $cyan-400, $cyan-600);
 // }

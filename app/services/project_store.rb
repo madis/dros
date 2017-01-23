@@ -2,37 +2,57 @@
 #
 # Gets the project from database, initiates import if necessary
 class ProjectStore
-  def self.get(slug)
-    new(slug, Importer).get
+  # Because the data request is not created in here, ProjectRequest abstracts
+  # the information related to requesting project.
+  #
+  # Very similar to DataRequest, maybe an opportunity to refactor?
+  class ProjectRequest
+    attr_reader :project, :status
+
+    def initialize(project, status)
+      @project = project
+      @status = status
+    end
   end
 
-  def initialize(slug, importer)
+  def self.get(slug)
+    new(slug).get
+  end
+
+  def initialize(slug)
     @slug = slug
-    @importer = importer
   end
 
   def get
-    if project.nil?
-      trigger_import(slug)
+    if project_needs_import?
+      trigger_import
+      ProjectRequest.new(project, :in_progress)
     else
-      update_when_out_of_date(project)
+      ProjectRequest.new(project, :completed)
     end
-    project
   end
 
   private
 
   attr_reader :slug
 
+  def project_needs_import?
+    project_out_of_date? && !import_in_progress?
+  end
+
+  def import_in_progress?
+    DataRequest.where(slug: slug).first.try(:in_progress?)
+  end
+
+  def project_out_of_date?
+    project.nil? || project.out_of_date?
+  end
+
   def project
     Project.by_slug(slug)
   end
 
-  def trigger_import(slug)
-    @importer.import(slug)
-  end
-
-  def update_when_out_of_date(project)
-    trigger_import(project.slug) if project.out_of_date?
+  def trigger_import
+    ImporterWorker.perform_async(slug)
   end
 end

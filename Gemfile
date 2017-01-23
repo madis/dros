@@ -36,6 +36,7 @@ gem 'dotenv'
 gem 'httparty', '~> 0.14'
 gem 'octokit'
 gem 'sentry-raven', group: :production
+gem 'sucker_punch', '~> 2.0'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
@@ -63,7 +64,9 @@ group :development, :test do
   gem 'capistrano3-puma',   require: false
   gem 'capybara'
   gem 'codeclimate-test-reporter', '~> 1.0.0'
+  gem 'database_cleaner'
   gem 'factory_girl'
+  gem 'launchy'
   gem 'pry'
   gem 'rspec-rails'
   gem 'rubocop'

@@ -1,6 +1,3 @@
-require 'simplecov'
-SimpleCov.start
-
 $LOAD_PATH << File.expand_path('../app', File.dirname(__FILE__))
 require 'pry'
 require 'webmock/rspec'
