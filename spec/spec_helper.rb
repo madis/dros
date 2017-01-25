@@ -1,5 +1,7 @@
 $LOAD_PATH << File.expand_path('../app', File.dirname(__FILE__))
 require 'pry'
+require 'active_support'
+require 'active_support/core_ext'
 require 'webmock/rspec'
 require_relative 'support/fixture_helpers'
 

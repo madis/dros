@@ -39,7 +39,7 @@ gem 'sentry-raven', group: :production
 gem 'sucker_punch', '~> 2.0'
 
 group :development, :test do
-  # Call 'byebug' anywhere in the code to stop execution and get a debugger console
+  gem 'awesome_print'
   gem 'byebug', platform: :mri
   gem 'webmock', '~> 2.3'
 end

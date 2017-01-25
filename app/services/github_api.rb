@@ -1,4 +1,5 @@
 require 'octokit'
+require_relative 'github_api/search_repositories'
 
 # Wrapper for github api
 #
@@ -24,5 +25,13 @@ class GithubApi
     octokit.repo(slug).to_h
   rescue Octokit::NotFound
     raise GithubApi::NotFound
+  end
+
+  # Returns enumerator containing repositories and total size
+  #
+  # Tries to fetch as many results with every request as possible (currently
+  # 100 per page)
+  def self.search_repositories(min_stars)
+    SearchRepositories.call(min_stars)
   end
 end
