@@ -52,6 +52,14 @@ class SeedSources
     MIN_FOLLOWERS = 5000
 
     def self.call
+      GithubApi.search_users(MIN_FOLLOWERS).flat_map do |user|
+        repos = GithubApi.repositories(user[:login]).sort_by do |repo|
+          repo[:stargazers_count]
+        end.reverse.take(10)
+        repos.map do |repo|
+          { slug: repo[:full_name], url: repo[:html_url] }
+        end
+      end
     end
   end
 end
