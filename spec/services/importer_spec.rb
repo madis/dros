@@ -29,7 +29,7 @@ RSpec.describe Importer do
   it 'adds project info' do
     subject
     project = Project.by_slug(slug)
-    expect(project.last_repo_info).to have_attributes(
+    expect(project.repo_info).to have_attributes(
       description: 'A progressive, incrementally-adoptable JavaScript framework for building UI on the web.',
       size: 16_230,
       watchers: 39_124,

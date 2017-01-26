@@ -27,7 +27,7 @@ class ContributionsImporter
         stat_row[:weeks].each do |week|
           data_values = week.to_h.values_at(*data_columns)
           next if data_values.all?(&:zero?)
-          worker.add [project_id, stat_row[:author][:login], week[:w], *data_values]
+          worker.add [project_id, stat_row.dig(:author, :login), week[:w], *data_values]
         end
       end
     end

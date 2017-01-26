@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170110194946) do
+ActiveRecord::Schema.define(version: 20170126154314) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "contributions", force: :cascade do |t|
-    t.string   "author",     null: false
+    t.string   "author"
     t.integer  "week",       null: false
     t.integer  "additions",  null: false
     t.integer  "deletions",  null: false
@@ -55,14 +55,17 @@ ActiveRecord::Schema.define(version: 20170110194946) do
 
   create_table "repo_infos", force: :cascade do |t|
     t.string   "description"
-    t.integer  "size",        default: 0, null: false
-    t.integer  "watchers",    default: 0, null: false
-    t.integer  "stars",       default: 0, null: false
-    t.integer  "forks",       default: 0, null: false
+    t.integer  "size",            default: 0, null: false
+    t.integer  "watchers",        default: 0, null: false
+    t.integer  "stars",           default: 0, null: false
+    t.integer  "forks",           default: 0, null: false
     t.string   "language"
-    t.integer  "project_id",              null: false
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.integer  "project_id",                  null: false
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.datetime "repo_created_at"
+    t.datetime "repo_pushed_at"
+    t.datetime "repo_updated_at"
     t.index ["project_id"], name: "index_repo_infos_on_project_id", using: :btree
   end
 

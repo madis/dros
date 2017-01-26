@@ -1,7 +1,7 @@
 # Represents software project of associated github repository
 class Project < ApplicationRecord
   has_many :contributions
-  has_many :repo_infos
+  has_one :repo_info
   has_one :stats
 
   def self.from_slug(slug)
@@ -28,10 +28,6 @@ class Project < ApplicationRecord
 
   def last_updated
     last_data_request.try(:updated_at)
-  end
-
-  def last_repo_info
-    repo_infos.order(:created_at).last
   end
 
   def data_requests

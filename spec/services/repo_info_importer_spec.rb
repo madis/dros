@@ -10,7 +10,10 @@ describe RepoInfoImporter do
       watchers: 39_124,
       language: 'JavaScript',
       forks: 4797,
-      stars: 39_124
+      stars: 39_124,
+      repo_created_at: Time.parse('2013-07-29 03:24:51.000000000 +0000'),
+      repo_pushed_at: Time.parse('2017-01-10 07:42:56.000000000 +0000'),
+      repo_updated_at: Time.parse('2017-01-10 09:06:52.000000000 +0000')
     )
   end
 end

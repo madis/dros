@@ -1,6 +1,12 @@
 # Calculates new project statistics based on contributions
 class StatsUpdater
   def self.update(project)
+    update_from_basic(project)
+  rescue BasicStats::NoValues => e
+    Rails.logger.error "Can't update project stats for #{project.slug}. #{e.message}"
+  end
+
+  def self.update_from_basic(project)
     stats = BasicStats.new project.contributions.map(&:commits).compact
     ProjectStats.find_or_create_by(project: project) do |ps|
       ps.update_attributes(
