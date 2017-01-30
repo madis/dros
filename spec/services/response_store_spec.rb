@@ -7,12 +7,32 @@ describe ResponseStore do
     described_class.store(data: hash, args: 'greeting')
   end
 
-  it 'stores responses' do
-    Dir.mktmpdir do |tmpdir|
-      allow(described_class).to receive(:tmp_path).and_return tmpdir
-      stored_file_path = store_test_hash(hello: 'world')
-      contents = File.read(stored_file_path)
-      expect(JSON.parse(contents).deep_symbolize_keys).to eq(hello: 'world')
+  describe '.store' do
+    it 'saves to disk' do
+      Dir.mktmpdir do |tmpdir|
+        allow(described_class).to receive(:tmp_path).and_return tmpdir
+        test_object = { hello: 'world' }
+        stored_file_path = store_test_hash(test_object)
+        contents = File.read(stored_file_path)
+        expect(JSON.parse(contents).deep_symbolize_keys).to eq(test_object)
+      end
+    end
+  end
+
+  describe '.retrieve' do
+    it 'gets back same data as was put in' do
+      Dir.mktmpdir do |tmpdir|
+        allow(described_class).to receive(:tmp_path).and_return tmpdir
+        example_data = { hello: 'world', number: 1 }
+        ResponseStore.store data: example_data, method: :man, args: 100
+        ResponseStore.store data: { should: 'not be found' }, method: :another, args: 100
+        from_store = ResponseStore.retrieve method: :man, args: 100
+        expect(from_store.deep_symbolize_keys).to eq example_data
+      end
+    end
+
+    it 'is nil when file is not found' do
+      expect(ResponseStore.retrieve(method: 'some_statistics', args: 'madis/dros')).to eq nil
     end
   end
 end

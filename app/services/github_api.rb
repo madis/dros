@@ -19,7 +19,7 @@ class GithubApi
   end
 
   def self.contributors_stats(slug)
-    response = octokit.contributors_stats slug, retry_wait: 3, retry_timeout: 20
+    response = octokit.contributors_stats(slug, retry_wait: 3, retry_timeout: 20).map(&:to_h)
     ResponseStore.store data: response, args: slug
     response
   end

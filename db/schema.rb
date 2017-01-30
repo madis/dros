@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170126154314) do
+ActiveRecord::Schema.define(version: 20170128201020) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -32,6 +32,8 @@ ActiveRecord::Schema.define(version: 20170126154314) do
     t.datetime "created_at",             null: false
     t.datetime "updated_at",             null: false
     t.integer  "status",     default: 0, null: false
+    t.integer  "project_id"
+    t.index ["project_id"], name: "index_data_requests_on_project_id", using: :btree
   end
 
   create_table "project_stats", force: :cascade do |t|
@@ -70,6 +72,7 @@ ActiveRecord::Schema.define(version: 20170126154314) do
   end
 
   add_foreign_key "contributions", "projects"
+  add_foreign_key "data_requests", "projects"
   add_foreign_key "project_stats", "projects"
   add_foreign_key "repo_infos", "projects"
 end
