@@ -43,8 +43,10 @@ class Importer
   end
 
   def update_health(project)
+    project_stats = ProjectStats.find_by(project: project)
+    return if project_stats.nil?
     project.update_attributes(
-      health: HealthDiagnosis.new(ProjectStats.find_by(project: project), ProjectStats.global).health
+      health: HealthDiagnosis.new(project_stats, ProjectStats.global).health
     )
   end
 
