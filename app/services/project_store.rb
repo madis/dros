@@ -21,20 +21,52 @@ class ProjectStore
 
   def initialize(slug)
     @slug = slug
+    @online = true
+    @project = Project.by_slug(slug)
   end
 
   def get
+    return existing_project_data if offline? || !can_import?
+
     if project_needs_import?
       trigger_import
       ProjectRequest.new(project, :in_progress)
     else
-      ProjectRequest.new(project, :completed)
+      ProjectRequest.new(project, :ready)
     end
+  end
+
+  def offline!
+    @online = false
   end
 
   private
 
-  attr_reader :slug
+  attr_reader :slug, :project
+
+  def existing_project_data
+    if project.present?
+      ProjectRequest.new(project, :ready)
+    else
+      ProjectRequest.new(nil, :error)
+    end
+  end
+
+  def can_import?
+    DataRequest.where(slug: slug).failed.created_after(1.hour.ago).count.zero?
+  end
+
+  def last_data_request
+    DataRequest.where(slug: slug).order(updated_at: :desc).limit(1).first
+  end
+
+  def online?
+    @online
+  end
+
+  def offline?
+    !@online
+  end
 
   def project_needs_import?
     project_out_of_date? && !import_in_progress?
@@ -46,10 +78,6 @@ class ProjectStore
 
   def project_out_of_date?
     project.nil? || project.out_of_date?
-  end
-
-  def project
-    Project.by_slug(slug)
   end
 
   def trigger_import
