@@ -6,7 +6,7 @@ class ProjectsController < ApplicationController
   def show_slug
     project_request = ProjectStore.get(slug)
     case project_request.status
-    when :completed
+    when :ready
       show_project_details(project_request.project)
     when :in_progress
       show_in_progress_notification
